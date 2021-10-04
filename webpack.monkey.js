@@ -1,3 +1,6 @@
 module.exports = function (webpackConfig, isDevelopment) {
-  // mutate webpackConfig
+  if (!isDevelopment) {
+    delete webpackConfig.optimization.splitChunks;
+    webpackConfig.optimization.runtimeChunk = false;
+  }
 };
