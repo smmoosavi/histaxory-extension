@@ -7,7 +7,8 @@ const assetManifest = JSON.parse(assetManifestFile);
 const manifest = JSON.parse(manifestFile);
 const package = JSON.parse(packageFile);
 
-manifest.content_scripts[0].js[0] = assetManifest.files['main.js'];
+manifest.content_scripts[0].js[0] = assetManifest.files['content.js'];
+manifest.background.service_worker = assetManifest.files['background.js'];
 manifest.version = package.version;
 
 fs.writeFileSync('build/manifest.json', JSON.stringify(manifest, null, 2));
