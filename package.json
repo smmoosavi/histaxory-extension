@@ -11,6 +11,7 @@
     "@lingui/core": "^3.12.1",
     "@lingui/react": "^3.12.1",
     "@mui/icons-material": "^5.0.4",
+    "@mui/lab": "^5.0.0-alpha.51",
     "@mui/material": "^5.0.4",
     "react": "^18.0.0-alpha-d174d063d-20210922",
     "react-dom": "^18.0.0-alpha-d174d063d-20210922",
