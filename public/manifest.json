@@ -3,15 +3,14 @@
   "name": "Online Taxi History",
   "version": "--from-package.json--",
   "manifest_version": 3,
+  "permissions": ["tabs"],
   "content_scripts": [
     {
       "matches": ["https://app.snapp.taxi/*", "https://app.tapsi.cab/*"],
       "js": ["content.js"]
     }
   ],
-  "action": {
-    "default_popup": "popup.html"
-  },
+  "action": {},
   "background": {
     "service_worker": "background.js"
   }
