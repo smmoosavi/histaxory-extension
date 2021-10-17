@@ -3,10 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/cache": "^11.5.0",
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "@fontsource/roboto": "^4.5.1",
     "@lingui/core": "^3.12.1",
     "@lingui/react": "^3.12.1",
+    "@mui/icons-material": "^5.0.4",
+    "@mui/material": "^5.0.4",
     "react": "^18.0.0-alpha-d174d063d-20210922",
-    "react-dom": "^18.0.0-alpha-d174d063d-20210922"
+    "react-dom": "^18.0.0-alpha-d174d063d-20210922",
+    "stylis-plugin-rtl": "^2.1.0",
+    "vazir-font": "^30.1.0"
   },
   "scripts": {
     "prepare": "husky install",
