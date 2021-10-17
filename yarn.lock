@@ -1392,6 +1392,13 @@
   resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.5.1.tgz#63f7b783f755d8f6727eb60198627e7e1be3ac20"
   integrity sha512-3mhfL+eNPG/woMNqwD/OHaW5qMpeGEBsDwzmhFmjB1yUV+M+M9P0NhP/AyHvnGz3DrqkvZ7CPzNMa+UkVLeELg==
 
+"@forminator/react-wire@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@forminator/react-wire/-/react-wire-0.4.2.tgz#476768e2c583a8b237c32fab619cda7db06289ab"
+  integrity sha512-3hDc3C0QQ75bK7g8TLGWPqi+4VCfNCNRryQLqsRNgXDaIXbCDPnL/lyr72GZh63EszPhuyDvBLYtQlZCo9nIoA==
+  dependencies:
+    mitt "^1.2.0"
+
 "@gar/promisify@^1.0.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
@@ -8196,6 +8203,11 @@ mississippi@^3.0.0:
     pumpify "^1.3.3"
     stream-each "^1.1.0"
     through2 "^2.0.0"
+
+mitt@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-1.2.0.tgz#cb24e6569c806e31bd4e3995787fe38a04fdf90d"
+  integrity sha512-r6lj77KlwqLhIUku9UWYes7KJtsczvolZkzp8hbaDPPaE24OmWl5s539Mytlj22siEQKosZ26qCBgda2PKwoJw==
 
 mixin-deep@^1.2.0:
   version "1.3.2"
