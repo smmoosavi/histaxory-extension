@@ -1,6 +1,4 @@
 import 'src/_config/install';
-import { t } from '@lingui/macro';
+import { main } from 'src/popup-app';
 
-console.log(t`histaxory`);
-
-export {};
+main();
