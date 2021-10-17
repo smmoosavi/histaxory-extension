@@ -1,4 +1,9 @@
+import { isTargetHost } from 'src/shared/host-utils';
+
 chrome.action.onClicked.addListener(function (tab) {
+  if (!isTargetHost(tab.url ?? '')) {
+    return;
+  }
   chrome.windows.create({
     url: chrome.runtime.getURL('popup.html') + '?' + tab.id,
     type: 'popup',
