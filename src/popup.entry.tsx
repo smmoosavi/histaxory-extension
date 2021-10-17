@@ -1,3 +1,5 @@
-console.log('popup');
+import { t } from '@lingui/macro';
+
+console.log(t`histaxory`);
 
 export {};
