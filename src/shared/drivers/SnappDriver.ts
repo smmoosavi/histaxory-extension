@@ -1,11 +1,28 @@
 import { Detail, Driver, Item } from './type';
 
+function parseSnappDate(text: string): string {
+  // سفر صبح چهارشنبه ۸ اردیبهشت
+  // سفر لغو شده توسط راننده، صبح چهارشنبه ۸ اردیبهشت
+  // سفر لغو شده توسط شما، شنبه بعدازظهر ۲۱ فروردین
+  return text;
+}
+
 async function goToHistoryPage(): Promise<void> {
-  console.log('snapp goToHistoryPage');
+  window.location.replace('/ride-history');
 }
 async function loadItems(): Promise<{ items: Item[] }> {
   console.log('snapp loadItems');
-  return { items: [] };
+
+  const elements = Array.from(document.getElementsByClassName('_3e91kz'));
+  const items = elements.map((el, index): Item => {
+    const a = el as HTMLAnchorElement;
+    return {
+      id: String(index),
+      date: parseSnappDate(a.innerText.split('\n')[0]),
+    };
+  });
+  console.log(items);
+  return { items };
 }
 async function scrollToEnd(): Promise<void> {
   console.log('snapp scrollToEnd');
