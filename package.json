@@ -13,6 +13,7 @@
     "@mui/icons-material": "^5.0.4",
     "@mui/lab": "^5.0.0-alpha.51",
     "@mui/material": "^5.0.4",
+    "date-fns-jalali": "^2.25.0-0",
     "react": "^18.0.0-alpha-d174d063d-20210922",
     "react-dom": "^18.0.0-alpha-d174d063d-20210922",
     "stylis-plugin-rtl": "^2.1.0",

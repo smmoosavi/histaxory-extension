@@ -1,11 +1,6 @@
+import { getYear, parse,formatISO } from 'date-fns-jalali';
 import { Detail, Driver, Item } from './type';
 
-function parseSnappDate(text: string): string {
-  // سفر صبح چهارشنبه ۸ اردیبهشت
-  // سفر لغو شده توسط راننده، صبح چهارشنبه ۸ اردیبهشت
-  // سفر لغو شده توسط شما، شنبه بعدازظهر ۲۱ فروردین
-  return text;
-}
 
 async function goToHistoryPage(): Promise<void> {
   window.location.replace('/ride-history');
