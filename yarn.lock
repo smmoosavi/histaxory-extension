@@ -1269,6 +1269,11 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
+"@ctablex/core@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@ctablex/core/-/core-0.3.0.tgz#4626f64956659de8b963d082c672a7692b3e72ae"
+  integrity sha512-FiyOsDvtDNt+Pdld2dKp3NoPxWq9Z5AS19dxxftJC4QQZaq9xkcEfJ9pfHnu3Lz5tY92WNByqqfqq8co7nJ/Lw==
+
 "@date-io/core@^2.11.0":
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/@date-io/core/-/core-2.11.0.tgz#28580cda1c8228ab2c7ed6aee673ef0495f913e6"
