@@ -1,0 +1,22 @@
+import React, { createContext, PropsWithChildren, useContext } from 'react';
+
+export interface {{pascalCase name}}ContextType {}
+export const {{pascalCase name}}Context = createContext<{{pascalCase name}}ContextType | undefined>(undefined);
+
+export function use{{pascalCase name}}Context(): {{pascalCase name}}ContextType {
+  const context = useContext({{pascalCase name}}Context);
+  if (context === undefined) {
+    throw new Error('use{{pascalCase name}}Context must be used inside the <{{pascalCase name}}ContextProvider/>');
+  }
+  return context;
+}
+
+interface OwnProps {
+  value: {{pascalCase name}}ContextType;
+}
+
+type Props = PropsWithChildren<OwnProps>;
+
+export function {{pascalCase name}}Provider(props: Props) {
+  return <{{pascalCase name}}Context.Provider value={props.value}>{props.children}</{{pascalCase name}}Context.Provider>;
+}
