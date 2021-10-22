@@ -5,6 +5,7 @@ export interface Item {
    */
   date?: string;
   time?: string;
+  title?: string;
 }
 
 export interface Detail {

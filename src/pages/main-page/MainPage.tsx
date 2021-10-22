@@ -6,6 +6,8 @@ import { createRemoteDriver } from 'src/shared/drivers';
 import { Item } from 'src/shared/drivers/type';
 import { SubmitButton } from 'src/shared/submit-button';
 import { useSubmit, useSubmitWire } from 'src/shared/submit-wire';
+import { TripsTable } from './table/TripsTable';
+import { useDownload } from './use-download';
 
 interface OwnProps {}
 
@@ -31,7 +33,31 @@ export function MainPage() {
       items$.setValue(res.items);
     }, [driver, items$]),
   );
-  const items = useWireValue(items$);
+
+  const loadMore$ = useSubmitWire();
+
+  useSubmit(
+    loadMore$,
+    useCallback(async () => {
+      let lastLength = 0;
+      while (true) {
+        await driver.scrollToEnd();
+        const res = await driver.loadItems();
+        const oldItems = items$.getValue();
+        console.log(res.items.length, oldItems.length);
+        if (res.items.length > oldItems.length) {
+          items$.setValue(res.items);
+          break;
+        }
+        if (lastLength === res.items.length) {
+          break;
+        }
+      }
+    }, [driver, items$]),
+  );
+
+  const download = useDownload();
+
   return (
     <Box m={2}>
       <Stack spacing={2}>
@@ -49,7 +75,16 @@ export function MainPage() {
             submit$={loadItems$}
           >{t`Load trips`}</SubmitButton>
         </Box>
-        <Box>item counts: {items.length}</Box>
+        <Box>
+          <TripsTable items$={items$} download={download} />
+        </Box>
+        <Box>
+          <SubmitButton
+            fullWidth
+            variant="contained"
+            submit$={loadMore$}
+          >{t`Load more`}</SubmitButton>
+        </Box>
       </Stack>
     </Box>
   );
