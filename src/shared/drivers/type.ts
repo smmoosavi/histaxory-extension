@@ -3,7 +3,7 @@ export interface Item {
   /**
    * iso date string
    */
-  date: string;
+  date?: string;
   time?: string;
 }
 

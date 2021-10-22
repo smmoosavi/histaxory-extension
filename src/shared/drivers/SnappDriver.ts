@@ -1,6 +1,5 @@
-import { getYear, parse,formatISO } from 'date-fns-jalali';
+import { parseSnappDate } from './snapp/snappDate';
 import { Detail, Driver, Item } from './type';
-
 
 async function goToHistoryPage(): Promise<void> {
   window.location.replace('/ride-history');

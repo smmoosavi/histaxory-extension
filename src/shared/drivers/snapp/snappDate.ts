@@ -1,9 +1,36 @@
-import { formatISO, getYear, parse } from 'date-fns-jalali';
+import {
+  addWeeks,
+  formatISO,
+  getYear,
+  isFuture,
+  isValid,
+  parse,
+} from 'date-fns-jalali';
+import { toEnDigits } from 'src/shared/digit-utils';
 
-export function parseSnappDate(text: string): string {
-  let [month, day] = text.split(' ').reverse();
+export function parseSnappDate(text: string): string | undefined {
+  let parts = text.split(' ').reverse();
+  let [month, day] = parts;
   let year = getYear(new Date());
-  console.log(`${day} ${month} ${year}`)
-  let date = parse(`${day} ${month} ${year}`,"dd MMMM yyyy",new Date());
-  return formatISO(date, {representation: 'date'});
+  let date = parse(
+    toEnDigits(`${day} ${month} ${year}`),
+    'dd MMMM yyyy',
+    new Date(),
+  );
+  if (!isValid(date)) {
+    date = parse(parts[0], 'cccc', new Date());
+    if (isFuture(date)) {
+      date = addWeeks(date, -1);
+    }
+  }
+  if (!isValid(date)) {
+    date = parse(parts[1], 'cccc', new Date());
+    if (isFuture(date)) {
+      date = addWeeks(date, -1);
+    }
+  }
+  if (!isValid(date)) {
+    return undefined;
+  }
+  return formatISO(date, { representation: 'date' });
 }
