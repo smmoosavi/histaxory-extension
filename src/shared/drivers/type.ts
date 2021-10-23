@@ -13,8 +13,7 @@ export interface Detail {
   /**
    * iso date string
    */
-  date?: string;
-  time?: string;
+  datetime: string;
 }
 
 export interface Driver {

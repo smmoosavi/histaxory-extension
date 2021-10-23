@@ -14,7 +14,10 @@ interface OwnProps {}
 export type Props = PropsWithChildren<OwnProps>;
 
 export function MainPage() {
-  const tabId = Number(window.location.search.split('?')[1]);
+  let searchParts = window.location.search.split('?')[1];
+  let [windowIdString, tabIdString] = searchParts.split('/');
+  const windowId = Number(windowIdString);
+  const tabId = Number(tabIdString);
   let driver = useMemo(() => createRemoteDriver(tabId), [tabId]);
   const items$ = useWire<Item[]>(null, []);
   const goToStoryPage$ = useSubmitWire();
@@ -44,7 +47,7 @@ export function MainPage() {
     }, [driver, items$]),
   );
 
-  const download = useDownload();
+  const download = useDownload(driver, { windowId, tabId });
 
   return (
     <Box m={2}>

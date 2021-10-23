@@ -13,6 +13,7 @@ export type Props = PropsWithChildren<OwnProps>;
 
 export function DownloadButton(props: Props) {
   const submit$ = useSubmitWire();
+  // TODO handle error
   const { download } = props;
   const id = useContent<string>();
   useSubmit(

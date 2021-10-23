@@ -5,6 +5,7 @@ export type QueueFn<T> = {
   push: (id: T) => void;
   start: (id: T) => void;
   end: (id: T) => void;
+  error: (id: T) => void;
 };
 
 export type QueueWire<T> = Wire<T | null, QueueFn<T>>;
@@ -31,7 +32,9 @@ export function useQueue<T>(process: (id: T) => Promise<void>): QueueWire<T> {
           queue$.setValue(rest);
           running$.setValue(c as Defined<T>);
           running$.fns.start(c);
-          await process(c);
+          await process(c).catch(() => {
+            running$.fns.error(c);
+          });
           running$.fns.end(c);
           running$.setValue(null);
           Promise.resolve().then(() => popAndRun());
