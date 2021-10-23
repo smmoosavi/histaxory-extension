@@ -21,22 +21,34 @@ async function loadItems(): Promise<{ items: Item[] }> {
   console.log(items);
   return { items };
 }
-async function scrollToEnd(): Promise<void> {
-  console.log('snapp scrollToEnd');
+
+async function scrollToEnd() {
+  console.log('snapp loadMore');
   const r = document.getElementsByClassName('layout-0-2-3')[0];
   r.scrollTo(0, r.scrollHeight);
+}
 
-  await delay(3000); // use MutationObserver for loading balls
+async function loadMore(n: number): Promise<{ items: Item[] }> {
+  console.log('snapp loadMore');
+  let items = (await loadItems()).items;
+  let lastLength = items.length;
+  while (items.length <= n) {
+    await scrollToEnd();
+    await delay(3000); // use MutationObserver for loading balls
+    items = (await loadItems()).items;
+    if (lastLength === items.length) {
+      break;
+    }
+  }
+  return { items };
 
   // r.getElementsByClassName('loadingBalls-0-2-9');
 }
-async function openItem(id: string): Promise<void> {
-  console.log('snapp openItem');
-}
-async function readItem(): Promise<{ detail: Detail }> {
-  console.log('snapp readItem');
+async function handleItem(id: string): Promise<{ detail: Detail }> {
+  console.log('snapp handleItem');
   return { detail: {} as any };
 }
+
 async function closeItem(): Promise<void> {
   console.log('snapp closeItem');
 }
@@ -44,8 +56,7 @@ async function closeItem(): Promise<void> {
 export const snappDriver: Driver = {
   goToHistoryPage,
   loadItems,
-  scrollToEnd,
-  openItem,
-  readItem,
+  loadMore,
+  handleItem,
   closeItem,
 };

@@ -15,18 +15,14 @@ export function receiverDriver(realDriver: Driver) {
         realDriver.loadItems().then((res) => sendResponse(res));
         break;
       }
-      case 'scroll-to-end': {
-        realDriver.scrollToEnd().then((res) => sendResponse(res));
+      case 'load-more': {
+        realDriver.loadMore(request.payload.n).then((res) => sendResponse(res));
         break;
       }
-      case 'open-item': {
+      case 'handle-item': {
         realDriver
-          .openItem(request.payload.id)
+          .handleItem(request.payload.id)
           .then((res) => sendResponse(res));
-        break;
-      }
-      case 'read-item': {
-        realDriver.readItem().then((res) => sendResponse(res));
         break;
       }
       case 'close-item': {

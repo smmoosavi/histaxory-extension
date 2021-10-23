@@ -1,4 +1,4 @@
-import { useWire, useWireValue } from '@forminator/react-wire';
+import { useWire } from '@forminator/react-wire';
 import { t } from '@lingui/macro';
 import { Box, Stack } from '@mui/material';
 import { PropsWithChildren, useCallback, useMemo } from 'react';
@@ -39,20 +39,8 @@ export function MainPage() {
   useSubmit(
     loadMore$,
     useCallback(async () => {
-      let lastLength = 0;
-      while (true) {
-        await driver.scrollToEnd();
-        const res = await driver.loadItems();
-        const oldItems = items$.getValue();
-        console.log(res.items.length, oldItems.length);
-        if (res.items.length > oldItems.length) {
-          items$.setValue(res.items);
-          break;
-        }
-        if (lastLength === res.items.length) {
-          break;
-        }
-      }
+      let { items } = await driver.loadMore(items$.getValue().length);
+      items$.setValue(items);
     }, [driver, items$]),
   );
 

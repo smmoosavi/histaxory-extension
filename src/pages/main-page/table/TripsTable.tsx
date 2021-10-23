@@ -15,7 +15,7 @@ import {
   TableHead as MuiTableHead,
   TableRow as MuiTableRow,
 } from '@mui/material';
-import React, { PropsWithChildren, useCallback } from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Item } from 'src/shared/drivers';
 import { DownloadButton } from './DownloadButton';
 

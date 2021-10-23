@@ -7,14 +7,12 @@ async function loadItems(): Promise<{ items: Item[] }> {
   console.log('tapsi loadItems');
   return { items: [] };
 }
-async function scrollToEnd(): Promise<void> {
-  console.log('tapsi scrollToEnd');
+async function loadMore(n: number): Promise<{ items: Item[] }> {
+  console.log('tapsi loadMore', n);
+  return { items: [] };
 }
-async function openItem(id: string): Promise<void> {
-  console.log('tapsi openItem');
-}
-async function readItem(): Promise<{ detail: Detail }> {
-  console.log('tapsi readItem');
+async function handleItem(id: string): Promise<{ detail: Detail }> {
+  console.log('tapsi handleItem', id);
   return { detail: {} as any };
 }
 async function closeItem(): Promise<void> {
@@ -24,8 +22,7 @@ async function closeItem(): Promise<void> {
 export const tapsiDriver: Driver = {
   goToHistoryPage,
   loadItems,
-  scrollToEnd,
-  openItem,
-  readItem,
+  loadMore,
+  handleItem,
   closeItem,
 };
