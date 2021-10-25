@@ -1,5 +1,5 @@
 import { format, formatISO, parse } from 'date-fns-jalali';
-import { toEnDigits } from '../../digit-utils';
+import { toEnDigits } from 'src/shared/digit-utils';
 
 export function parseTapsiDate(s: string) {
   let datetimeStr = s.split(' - ')[1].replace(' | ', ' ');

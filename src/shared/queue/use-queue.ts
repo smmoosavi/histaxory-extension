@@ -28,7 +28,6 @@ export function useQueue<T>(process: (id: T) => Promise<void>): QueueWire<T> {
             return;
           }
           const [c, ...rest] = q;
-          console.log('pop', c, rest);
           queue$.setValue(rest);
           running$.setValue(c as Defined<T>);
           running$.fns.start(c);
@@ -42,7 +41,6 @@ export function useQueue<T>(process: (id: T) => Promise<void>): QueueWire<T> {
 
         let q = queue$.getValue();
         q = [...q, id];
-        console.log('push', q);
         queue$.setValue(q);
         Promise.resolve().then(() => popAndRun());
       },

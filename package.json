@@ -33,7 +33,7 @@
     "start": "monkey-react-scripts start",
     "build": "monkey-react-scripts build",
     "postbuild": "node scripts/build.js",
-    "pack": "node scripts/pack.js",
+    "pack-crx": "node scripts/pack.js",
     "test": "monkey-react-scripts test"
   },
   "eslintConfig": {

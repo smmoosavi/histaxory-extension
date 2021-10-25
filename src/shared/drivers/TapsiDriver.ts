@@ -1,4 +1,4 @@
-import { delay } from '../delay';
+import { delay } from 'src/shared/delay';
 import { parseTapsiDate } from './tapsi/tapsiDate';
 import { Detail, Driver, Item } from './type';
 
@@ -21,15 +21,11 @@ function $x(xpath: string) {
 }
 
 async function goToHistoryPage(): Promise<void> {
-  console.log('tapsi goToHistoryPage');
-
   (document.querySelector('.hamburger.drawer') as HTMLButtonElement)?.click();
   ($x("//div[contains(text(), 'سفر‌های من')]") as HTMLDivElement)?.click();
   await delay(1000);
 }
 async function loadItems(): Promise<{ items: Item[] }> {
-  console.log('tapsi loadItems');
-
   const elements = Array.from(
     document.getElementsByClassName('RideHistory-ride-content-container'),
   );
@@ -43,11 +39,9 @@ async function loadItems(): Promise<{ items: Item[] }> {
       title,
     };
   });
-  console.log(items);
   return { items };
 }
 async function scrollToEnd() {
-  console.log('tapsi loadMore');
   const r = document.getElementsByClassName(
     'RideHistory-ride-list-container',
   )[0];
@@ -55,7 +49,6 @@ async function scrollToEnd() {
 }
 
 async function loadMore(n: number): Promise<{ items: Item[] }> {
-  console.log('tapsi loadMore', n);
   let items = (await loadItems()).items;
   let lastLength = items.length;
   while (items.length <= n) {
@@ -80,7 +73,6 @@ function getSize() {
   return { top, left, width, height };
 }
 async function handleItem(id: string): Promise<{ detail: Detail }> {
-  console.log('tapsi handleItem', id);
   const n = Number(id);
   let items = (await loadMore(n)).items;
   while (items.length < n) {
@@ -92,7 +84,6 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
   const element = elements[n] as HTMLAnchorElement;
   const title = element.innerText.split('\n')[0];
   const { datetime } = parseTapsiDate(title);
-  console.log(element);
   element.click();
 
   await delay(3000);
@@ -103,7 +94,6 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
 }
 
 async function closeItem(): Promise<void> {
-  console.log('tapsi closeItem');
   try {
     document.head.removeChild(style);
   } catch (e) {}
@@ -112,7 +102,6 @@ async function closeItem(): Promise<void> {
   const close = document.getElementsByClassName(
     'header-close_button',
   )[1] as HTMLDivElement;
-  console.log('close', close);
 
   close.click();
   await delay(1000);

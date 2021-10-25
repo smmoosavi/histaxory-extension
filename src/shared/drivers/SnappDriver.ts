@@ -1,4 +1,4 @@
-import { delay } from '../delay';
+import { delay } from 'src/shared/delay';
 import { parseSnappDate } from './snapp/snappDate';
 import { Detail, Driver, Item } from './type';
 
@@ -17,8 +17,6 @@ async function goToHistoryPage(): Promise<void> {
   window.location.replace('/ride-history');
 }
 async function loadItems(): Promise<{ items: Item[] }> {
-  console.log('snapp loadItems');
-
   const elements = Array.from(document.getElementsByClassName('_3e91kz'));
   const items = elements.map((el, index): Item => {
     const a = el as HTMLAnchorElement;
@@ -29,18 +27,15 @@ async function loadItems(): Promise<{ items: Item[] }> {
       title,
     };
   });
-  console.log(items);
   return { items };
 }
 
 async function scrollToEnd() {
-  console.log('snapp loadMore');
   const r = document.getElementsByClassName('layout-0-2-3')[0];
   r.scrollTo(0, r.scrollHeight);
 }
 
 async function loadMore(n: number): Promise<{ items: Item[] }> {
-  console.log('snapp loadMore');
   let items = (await loadItems()).items;
   let lastLength = items.length;
   while (items.length <= n) {
@@ -66,7 +61,6 @@ function getSize() {
 }
 
 async function handleItem(id: string): Promise<{ detail: Detail }> {
-  console.log('snapp handleItem');
   const n = Number(id);
   let items = (await loadMore(n)).items;
   while (items.length < n) {
@@ -74,7 +68,6 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
   }
   const elements = Array.from(document.getElementsByClassName('_3e91kz'));
   const element = elements[n] as HTMLAnchorElement;
-  console.log(element);
   element.click();
 
   await delay(2000);
@@ -85,7 +78,6 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
 }
 
 async function closeItem(): Promise<void> {
-  console.log('snapp closeItem');
   try {
     document.head.removeChild(style);
   } catch (e) {}

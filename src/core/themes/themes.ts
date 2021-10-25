@@ -29,14 +29,17 @@ export function getThemeOptions(
   return themeOptions;
 }
 
+const TAPSI_COLOR = '#f95921';
+const SNAPP_COLOR = '#00d170';
+
 const baseThemeOptions: ThemeOptions = {};
 const customizedPalette: Partial<PaletteOptions> = {
   background: {},
   primary: {
-    main: '#f95921',
+    main: TAPSI_COLOR,
   },
   secondary: {
-    main: '#00d170',
+    main: SNAPP_COLOR,
   },
 };
 
