@@ -1,9 +1,19 @@
 import { format, parseISO } from 'date-fns-jalali';
+import download from 'downloadjs';
+import Jimp from 'jimp';
 import { useCallback } from 'react';
 import { Driver } from 'src/shared/drivers';
 import { useQueue } from 'src/shared/queue';
 import { delay } from '../../shared/delay';
-import download from 'downloadjs';
+import { Size } from '../../shared/drivers/type';
+
+async function cropImage(size: Size, img: string): Promise<string> {
+  const x = img.split(',')[1];
+  const j = await Jimp.read(Buffer.from(x, 'base64'));
+  console.log('jjjjj');
+  const { top, left, width, height } = size;
+  return await j.crop(left, top, width, height).getBase64Async(Jimp.MIME_PNG);
+}
 
 async function realDownload(
   id: string,
@@ -21,7 +31,9 @@ async function realDownload(
   console.log(date);
   let name = format(date, 'yyyy-MM-dd hh-mm');
   console.log(name);
-  download(img, name + '.png');
+  const cropped = await cropImage(res.detail.size, img);
+  console.log(cropped.substr(0, 100));
+  download(cropped, name + '.png');
   await driver.closeItem();
   console.log('real download end', id);
 }
@@ -33,7 +45,9 @@ export function useDownload(
   const { windowId, tabId } = ctx;
   const download = useCallback(
     (id: string) => {
-      return realDownload(id, driver, { windowId, tabId });
+      return realDownload(id, driver, { windowId, tabId }).catch((e) =>
+        console.error(e),
+      );
     },
     [driver, windowId, tabId],
   );

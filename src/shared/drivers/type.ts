@@ -8,12 +8,20 @@ export interface Item {
   title?: string;
 }
 
+export interface Size {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+}
+
 export interface Detail {
   id: string;
   /**
    * iso date string
    */
   datetime: string;
+  size: Size;
 }
 
 export interface Driver {

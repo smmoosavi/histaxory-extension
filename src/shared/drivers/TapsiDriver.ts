@@ -68,6 +68,17 @@ async function loadMore(n: number): Promise<{ items: Item[] }> {
   }
   return { items };
 }
+
+function getSize() {
+  const el = document.getElementsByClassName(
+    'ride-details_wrap',
+  )[0] as HTMLDivElement;
+  const top = el.offsetTop;
+  const left = el.offsetLeft;
+  const width = el.offsetWidth;
+  const height = el.offsetHeight;
+  return { top, left, width, height };
+}
 async function handleItem(id: string): Promise<{ detail: Detail }> {
   console.log('tapsi handleItem', id);
   const n = Number(id);
@@ -86,8 +97,9 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
 
   await delay(3000);
   document.head.appendChild(style);
+  const size = getSize();
 
-  return { detail: { id, datetime } };
+  return { detail: { id, datetime, size } };
 }
 
 async function closeItem(): Promise<void> {

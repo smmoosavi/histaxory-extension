@@ -7,7 +7,7 @@ header, footer {
   display: none
 }
 main {
-  width: 500px;
+  width: 450px;
 }
 `;
 let style = document.createElement('style') as HTMLStyleElement;
@@ -55,6 +55,16 @@ async function loadMore(n: number): Promise<{ items: Item[] }> {
 
   // r.getElementsByClassName('loadingBalls-0-2-9');
 }
+
+function getSize() {
+  const el = document.getElementsByTagName('main')[1] as HTMLDivElement;
+  const top = el.offsetTop;
+  const left = el.offsetLeft;
+  const width = el.offsetWidth;
+  const height = el.offsetHeight;
+  return { top, left, width, height };
+}
+
 async function handleItem(id: string): Promise<{ detail: Detail }> {
   console.log('snapp handleItem');
   const n = Number(id);
@@ -70,7 +80,8 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
   await delay(2000);
   document.head.appendChild(style);
   const datetime = window.history.state.state.ride.created_at;
-  return { detail: { id, datetime } };
+  const size = getSize();
+  return { detail: { id, datetime, size } };
 }
 
 async function closeItem(): Promise<void> {
