@@ -1,5 +1,5 @@
 import { delay } from 'src/shared/delay';
-import { parseSnappDate } from './snapp/snappDate';
+import { parseSnappDate, parseSnappDateTime } from './snapp/snappDate';
 import { Detail, Driver, Item } from './type';
 
 const css = `
@@ -16,8 +16,9 @@ style.appendChild(document.createTextNode(css));
 async function goToHistoryPage(): Promise<void> {
   window.location.replace('/ride-history');
 }
+
 async function loadItems(): Promise<{ items: Item[] }> {
-  const elements = Array.from(document.getElementsByClassName('_3e91kz'));
+  const elements = Array.from(document.getElementsByClassName('_3IFnKX'));
   const items = elements.map((el, index): Item => {
     const a = el as HTMLAnchorElement;
     const title = a.innerText.split('\n')[0];
@@ -66,13 +67,22 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
   while (items.length < n) {
     items = (await loadMore(n)).items;
   }
-  const elements = Array.from(document.getElementsByClassName('_3e91kz'));
+  const elements = Array.from(document.getElementsByClassName('_3IFnKX'));
   const element = elements[n] as HTMLAnchorElement;
   element.click();
 
   await delay(2000);
   document.head.appendChild(style);
-  const datetime = window.history.state.state.ride.created_at;
+
+  const data =
+    document.getElementById('ride-history-info')?.innerText.split('\n') ?? [];
+  const dateIndex = data.findIndex((s) => s === 'تاریخ سفر') + 1;
+  const timeIndex = data.findIndex((s) => s === 'زمان شروع سفر') + 1;
+
+  const datetime = parseSnappDateTime(
+    data[dateIndex],
+    data[timeIndex],
+  ).datetime;
   const size = getSize();
   return { detail: { id, datetime, size } };
 }

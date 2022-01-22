@@ -1,4 +1,4 @@
-import { parseSnappDate } from './snappDate';
+import { parseSnappDate, parseSnappDateTime } from './snappDate';
 
 describe('snapp date', () => {
   afterEach(() => {
@@ -23,5 +23,15 @@ describe('snapp date', () => {
     expect(date3).toBe('2021-04-10');
     expect(date4).toBe('2021-10-18');
     expect(date5).toBe('2021-10-20');
+  });
+  it('should parse date time', function () {
+    const date = '۲۷ دی ۱۴۰۰';
+    const time = '۱۱:۲۲';
+    const parsedDate = parseSnappDateTime(date, time);
+    expect(parsedDate).toEqual({
+      date: '2022-01-17',
+      datetime: '2022-01-17 11:22',
+      time: '11:22',
+    });
   });
 });

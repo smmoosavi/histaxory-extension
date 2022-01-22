@@ -1,5 +1,6 @@
 import {
   addWeeks,
+  format,
   formatISO,
   getYear,
   isFuture,
@@ -33,4 +34,13 @@ export function parseSnappDate(text: string): string | undefined {
     return undefined;
   }
   return formatISO(date, { representation: 'date' });
+}
+
+export function parseSnappDateTime(fDate: string, fTime: string) {
+  const enDateTime = toEnDigits(fDate + ' ' + fTime);
+  const value = parse(enDateTime, 'dd MMMM yyyy HH:mm', new Date());
+  const date = formatISO(value, { representation: 'date' });
+  const time = format(value, 'HH:mm');
+  const datetime = `${date} ${time}`;
+  return { date, time, datetime };
 }
