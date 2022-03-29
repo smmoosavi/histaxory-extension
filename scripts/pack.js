@@ -4,7 +4,7 @@ const rimraf = require('rimraf');
 const ChromeExtension = require('crx');
 
 const pem = fs.readFileSync('key.pem');
-crx = new ChromeExtension({
+const crx = new ChromeExtension({
   rootDirectory: path.resolve('./build'),
   privateKey: pem,
 });
@@ -22,8 +22,12 @@ crx
   .load()
   .then(() => crx.pack())
   .then((crxBuffer) => {
-    fs.writeFileSync(path.resolve('./dist/gerger.crx'), crxBuffer);
+    fs.writeFileSync(path.resolve('./dist/histaxory.crx'), crxBuffer);
   })
   .then(() => {
-    console.log('extension file exist in dist/gerger.crx');
+    console.log('extension file exist in dist/histaxory.crx');
+  })
+  .catch((e) => {
+    console.log(e);
+    process.exit(-1);
   });
