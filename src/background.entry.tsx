@@ -5,7 +5,8 @@ chrome.action.onClicked.addListener(function (tab) {
     return;
   }
   chrome.windows.create({
-    url: chrome.runtime.getURL('popup.html') + '?' + tab.id,
+    url:
+      chrome.runtime.getURL('popup.html') + '?' + tab.windowId + '/' + tab.id,
     type: 'popup',
     width: 400,
     height: 600,

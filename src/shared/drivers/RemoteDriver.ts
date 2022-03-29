@@ -6,15 +6,13 @@ import {
   Driver,
   GoToHistoryPageAction,
   GoToHistoryPageResponse,
+  HandleItemAction,
+  HandleItemResponse,
   Item,
   LoadItemsAction,
   LoadItemsResponse,
-  OpenItemAction,
-  OpenItemResponse,
-  ReadItemAction,
-  ReadItemResponse,
-  ScrollToEndAction,
-  ScrollToEndResponse,
+  LoadMoreAction,
+  LoadMoreResponse,
 } from './type';
 
 export function createRemoteDriver(tabId: number): Driver {
@@ -42,37 +40,25 @@ export function createRemoteDriver(tabId: number): Driver {
     );
     return d.promise;
   }
-  async function scrollToEnd(): Promise<void> {
-    const d = defer<void>();
-    chrome.tabs.sendMessage<ScrollToEndAction, ScrollToEndResponse>(
+  async function loadMore(n: number): Promise<{ items: Item[] }> {
+    const d = defer<{ items: Item[] }>();
+    chrome.tabs.sendMessage<LoadMoreAction, LoadMoreResponse>(
       tabId,
       {
-        type: 'scroll-to-end',
-        payload: {},
+        type: 'load-more',
+        payload: { n },
       },
-      () => d.resolve(),
+      (res) => d.resolve(res),
     );
     return d.promise;
   }
-  async function openItem(id: string): Promise<void> {
-    const d = defer<void>();
-    chrome.tabs.sendMessage<OpenItemAction, OpenItemResponse>(
-      tabId,
-      {
-        type: 'open-item',
-        payload: { id },
-      },
-      () => d.resolve(),
-    );
-    return d.promise;
-  }
-  async function readItem(): Promise<{ detail: Detail }> {
+  async function handleItem(id: string): Promise<{ detail: Detail }> {
     const d = defer<{ detail: Detail }>();
-    chrome.tabs.sendMessage<ReadItemAction, ReadItemResponse>(
+    chrome.tabs.sendMessage<HandleItemAction, HandleItemResponse>(
       tabId,
       {
-        type: 'read-item',
-        payload: {},
+        type: 'handle-item',
+        payload: { id },
       },
       (res) => d.resolve(res),
     );
@@ -93,9 +79,8 @@ export function createRemoteDriver(tabId: number): Driver {
   return {
     goToHistoryPage,
     loadItems,
-    scrollToEnd,
-    openItem,
-    readItem,
+    loadMore,
+    handleItem,
     closeItem,
   };
 }
