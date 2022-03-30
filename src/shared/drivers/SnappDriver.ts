@@ -6,8 +6,8 @@ const iframeCss = `
 header, footer {
   display: none
 }
-main {
-  width: 450px;
+.z4-SpS > div {
+  overflow: hidden;
 }
 `;
 
@@ -102,14 +102,15 @@ async function waitForElement(
   document: Document,
   selector: string,
   retry = 3,
-): Promise<Element> {
-  const el = document.querySelector(selector);
+): Promise<HTMLElement> {
+  const el = document.querySelector(selector) as HTMLElement;
   if (el) {
     return el;
   }
   if (retry <= 0) {
     throw new Error(`waitForElement: ${selector} not found`);
   }
+
   await delay(1000);
   return waitForElement(document, selector, retry - 1);
 }
@@ -125,11 +126,12 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
   const href = element.closest('a')!.href;
 
   const iframe = await addIframe(href);
-  await waitForElement(iframe.contentWindow!.document, '#ride-history-detail');
-  const data =
-    iframe
-      .contentWindow!.document.getElementById('ride-history-info')
-      ?.innerText.split('\n') ?? [];
+  const dateEl = await waitForElement(
+    iframe.contentWindow!.document,
+    '#ride-history-info',
+    6,
+  );
+  const data = dateEl?.innerText.split('\n') ?? [];
   const dateIndex = data.findIndex((s) => s === 'تاریخ سفر') + 1;
   const timeIndex = data.findIndex((s) => s === 'زمان شروع سفر') + 1;
 
