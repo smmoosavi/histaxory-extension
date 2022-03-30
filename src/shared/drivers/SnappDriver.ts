@@ -2,7 +2,7 @@ import { delay } from 'src/shared/delay';
 import { parseSnappDate, parseSnappDateTime } from './snapp/snappDate';
 import { Detail, Driver, Item } from './type';
 
-const css = `
+const iframeCss = `
 header, footer {
   display: none
 }
@@ -10,8 +10,30 @@ main {
   width: 450px;
 }
 `;
+
+const css = `
+.histaxory-iframe-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 9999;
+  background-color: #fff;
+}
+
+#histaxory-iframe {
+  width: 450px;
+  height: 100%;
+  border: none;
+}
+
+`;
 let style = document.createElement('style') as HTMLStyleElement;
 style.appendChild(document.createTextNode(css));
+
+let iframeStyle = document.createElement('style') as HTMLStyleElement;
+iframeStyle.appendChild(document.createTextNode(iframeCss));
 
 async function goToHistoryPage(): Promise<void> {
   window.location.replace('/ride-history');
@@ -53,12 +75,43 @@ async function loadMore(n: number): Promise<{ items: Item[] }> {
 }
 
 function getSize() {
-  const el = document.getElementsByTagName('main')[1] as HTMLDivElement;
+  const el = document.getElementById('histaxory-iframe') as HTMLIFrameElement;
   const top = el.offsetTop;
   const left = el.offsetLeft;
   const width = el.offsetWidth;
   const height = el.offsetHeight;
   return { top, left, width, height };
+}
+
+async function addIframe(href: string) {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'histaxory-iframe-wrapper';
+  const iframe = document.createElement('iframe');
+  iframe.id = 'histaxory-iframe';
+  wrapper.appendChild(iframe);
+  iframe.src = href;
+  document.head.appendChild(style);
+  document.body.appendChild(wrapper);
+  await delay(1000);
+  iframe.contentWindow!.document.head.appendChild(iframeStyle);
+
+  return iframe;
+}
+
+async function waitForElement(
+  document: Document,
+  selector: string,
+  retry = 3,
+): Promise<Element> {
+  const el = document.querySelector(selector);
+  if (el) {
+    return el;
+  }
+  if (retry <= 0) {
+    throw new Error(`waitForElement: ${selector} not found`);
+  }
+  await delay(1000);
+  return waitForElement(document, selector, retry - 1);
 }
 
 async function handleItem(id: string): Promise<{ detail: Detail }> {
@@ -69,13 +122,14 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
   }
   const elements = Array.from(document.getElementsByClassName('_3IFnKX'));
   const element = elements[n] as HTMLAnchorElement;
-  element.click();
+  const href = element.closest('a')!.href;
 
-  await delay(2000);
-  document.head.appendChild(style);
-
+  const iframe = await addIframe(href);
+  await waitForElement(iframe.contentWindow!.document, '#ride-history-detail');
   const data =
-    document.getElementById('ride-history-info')?.innerText.split('\n') ?? [];
+    iframe
+      .contentWindow!.document.getElementById('ride-history-info')
+      ?.innerText.split('\n') ?? [];
   const dateIndex = data.findIndex((s) => s === 'تاریخ سفر') + 1;
   const timeIndex = data.findIndex((s) => s === 'زمان شروع سفر') + 1;
 
@@ -89,9 +143,12 @@ async function handleItem(id: string): Promise<{ detail: Detail }> {
 
 async function closeItem(): Promise<void> {
   try {
+    const wrapper = document.getElementsByClassName(
+      'histaxory-iframe-wrapper',
+    )[0];
+    document.body.removeChild(wrapper);
     document.head.removeChild(style);
   } catch (e) {}
-  window.history.back();
 }
 
 export const snappDriver: Driver = {
